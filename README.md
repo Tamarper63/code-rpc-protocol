@@ -1,4 +1,4 @@
-# CODE-RPC Protocol
+# CODE-RPC – Developer Refactor Protocol (v1.3)
 
 This repository defines the strict configuration protocol for GPT-based developer agents.
 
@@ -6,33 +6,31 @@ This repository defines the strict configuration protocol for GPT-based develope
 
 ```
 schemas/
-  code_rpc.schema.json       # JSON Schema to validate protocol config
-
+  code_rpc.schema.json       # JSON Schema to validate CODE-RPC config (v1.3)
 protocol/
-  code_rpc_config.json       # The actual protocol config (v1.2)
+  code_rpc_config.json       # CODE-RPC configuration file (must match schema)
 ```
 
-## ✅ How to Use
+## ✅ Key Features
 
-To validate your `code_rpc_config.json` automatically:
+- Deep full-project search before reasoning
+- No simulation or stylistic guessing
+- Self-verifying reasoning with consistency check
+- Architecture detection and benchmarked refactor paths
+- Dead code and duplication detection
+- Objective Deviation flag when suggested changes break current structure
+- UX fully disabled: only terse, technical responses allowed
 
-1. Reference the schema at the top of your config file:
+## 🧠 New in v1.3
 
-```json
-"$schema": "https://cdn.jsdelivr.net/gh/Tamarper63/code-rpc-protocol/schemas/code_rpc.schema.json"
-```
+- `ContextTracker` tool for cross-file, cross-prompt awareness
+- `memory_policy` block:
+  - `architecture_cache`
+  - `file_reference_tracking`
+  - `refactor_state_persistence`
 
-2. Use a validator:
+## 🧪 Validation Example
 
 ```bash
 npx ajv validate -s schemas/code_rpc.schema.json -d protocol/code_rpc_config.json
 ```
-
-## 🔒 Features in v1.2
-
-- Full project-wide deep search before output
-- No UX language (technical-only)
-- Architecture-aware refactoring
-- Dead code + duplicate detection
-- Output self-verification
-- Objective-only reasoning with no simulation
