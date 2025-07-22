@@ -1,40 +1,38 @@
-# CODE-RPC/Unified/1.0 – Unified, Open Code Review Protocol
+# CODE-RPC Protocol
 
-A fully automated, objective code review protocol for Python, automation, and infrastructure projects.  
-Works as both a standalone API and as a custom GPT (AI assistant) for any developer or team.
+This repository defines the strict configuration protocol for GPT-based developer agents.
 
----
+## 📂 Structure
 
-## 📂 Files in this Repository
+```
+schemas/
+  code_rpc.schema.json       # JSON Schema to validate protocol config
 
-- **CODE_RPC_Unified_GPT_Template_v2.json**  
-  Ready-to-import file for OpenAI ChatGPT – instantly creates a custom GPT agent based on your protocol.
-- **CODE_RPC_Unified_Documentation_HE.txt**  
-  Full Hebrew technical documentation: usage guide, triggers, examples, system prompt.
+protocol/
+  code_rpc_config.json       # The actual protocol config (v1.2)
+```
 
----
+## ✅ How to Use
 
-## 🚀 What Does the Protocol Do?
+To validate your `code_rpc_config.json` automatically:
 
-✅ Automatic scanning for unused imports, dead code, and duplication  
-✅ Full mapping of infra, API, tests, utils, models  
-✅ Benchmarking against leading GitHub OSS projects  
-✅ SOLID, naming, coupling, SRP verification  
-✅ Secure secrets/token management  
-✅ Auto-generated documentation (README, Docs, Badges, CI)  
-✅ Objective scoring (0–10) for every area + Approve/Needs Improvement status  
-✅ Objective refactor suggestions (even if they deviate from the current structure)  
-✅ Full automation: lint, format, test coverage, regression, CI/CD  
-✅ Supports monorepo and multi-architecture projects  
-✅ Usable both as an API and directly as a GPT/Chat assistant!
+1. Reference the schema at the top of your config file:
 
----
+```json
+"$schema": "https://cdn.jsdelivr.net/gh/Tamarper63/code-rpc-protocol/schemas/code_rpc.schema.json"
+```
 
-## 🛠️ How to Use the Protocol?
+2. Use a validator:
 
-### 1. As a Custom GPT (OpenAI ChatGPT)
-- Go to [chat.openai.com/gpts/new](https://chat.openai.com/gpts/new)
-- Choose **Import from File**
-- Upload the file `CODE_RPC_Unified_GPT_Template_v2.json`
-- Use your new custom GPT with all the protocol capabilities
+```bash
+npx ajv validate -s schemas/code_rpc.schema.json -d protocol/code_rpc_config.json
+```
 
+## 🔒 Features in v1.2
+
+- Full project-wide deep search before output
+- No UX language (technical-only)
+- Architecture-aware refactoring
+- Dead code + duplicate detection
+- Output self-verification
+- Objective-only reasoning with no simulation

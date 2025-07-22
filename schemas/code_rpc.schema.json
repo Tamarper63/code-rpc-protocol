@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CODE-RPC Protocol Configuration Schema",
+  "type": "object",
+  "required": [
+    "name",
+    "description",
+    "instructions",
+    "activation_trigger",
+    "tier_access",
+    "origin",
+    "visual_identity",
+    "tool_use",
+    "preset_responses",
+    "version",
+    "status"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "CODE-RPC \u2013 Developer Refactor Protocol"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10
+    },
+    "instructions": {
+      "type": "object",
+      "required": [
+        "behavior"
+      ],
+      "properties": {
+        "behavior": {
+          "type": "string",
+          "pattern": "(?=.*deep search)(?=.*do not simulate)(?=.*verify yourself)(?=.*dead code)(?=.*objective deviation)(?=.*architecture)"
+        }
+      }
+    },
+    "activation_trigger": {
+      "type": "string",
+      "pattern": "\\[CODE-RPC/1.0\\], \\[code-check\\], \\[code-review\\]"
+    },
+    "tier_access": {
+      "type": "string",
+      "enum": [
+        "Tier 2+",
+        "Tier 3"
+      ]
+    },
+    "origin": {
+      "type": "string",
+      "pattern": "user/ARCH\\..+"
+    },
+    "visual_identity": {
+      "type": "object",
+      "required": [
+        "emoji",
+        "color",
+        "style",
+        "voice"
+      ],
+      "properties": {
+        "emoji": {
+          "type": "string",
+          "pattern": "\ud83d\udee0\ufe0f"
+        },
+        "color": {
+          "type": "string",
+          "enum": [
+            "dark blue"
+          ]
+        },
+        "style": {
+          "type": "string",
+          "enum": [
+            "code-audit"
+          ]
+        },
+        "voice": {
+          "type": "string",
+          "const": "technical, terse, non-narrative"
+        }
+      }
+    },
+    "tool_use": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "tools"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "const": true
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "description",
+              "auto_invoke_in"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "GitDiffAnalyzer",
+                  "StructureScanner",
+                  "CodeTracker"
+                ]
+              },
+              "description": {
+                "type": "string"
+              },
+              "auto_invoke_in": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "[CODE-RPC/1.0]",
+                    "[code-review]"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "preset_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "user_input",
+          "assistant_response"
+        ],
+        "properties": {
+          "user_input": {
+            "type": "string"
+          },
+          "assistant_response": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "pattern": "1\\.2"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Public"
+      ]
+    }
+  }
+}
