@@ -1,36 +1,55 @@
-# CODE-RPC – Developer Refactor Protocol (v1.3)
+# CODE-RPC – Developer Refactor Protocol (v1.4)
 
-This repository defines the strict configuration protocol for GPT-based developer agents.
+This repository defines version 1.4 of the CODE-RPC protocol for GPT-based developer agents.
 
 ## 📂 Structure
 
 ```
 schemas/
-  code_rpc.schema.json       # JSON Schema to validate CODE-RPC config (v1.3)
+  code_rpc.schema.json             # JSON Schema for validation
 protocol/
-  code_rpc_config.json       # CODE-RPC configuration file (must match schema)
+  code_rpc_config.json             # Protocol configuration (v1.4)
+instructions.txt                   # GPT Instructions to paste in setup
 ```
 
-## ✅ Key Features
+## ✅ What's New in v1.4
 
-- Deep full-project search before reasoning
-- No simulation or stylistic guessing
-- Self-verifying reasoning with consistency check
-- Architecture detection and benchmarked refactor paths
-- Dead code and duplication detection
-- Objective Deviation flag when suggested changes break current structure
-- UX fully disabled: only terse, technical responses allowed
+- 🔧 `module_boundary_policy`: enforce cross-layer discipline
+- 🧠 `design_state_tracking`: track current architecture and detect shifts
+- 📐 `refactor_scope_control`: limit number of files and boundary violations
+- 🧪 `TestSurfaceAnalyzer`: detect structural impact on test coverage
+- 🔗 `DependencyResolver`: maps cross-module dependency trees
+- ⚡ `advanced_trigger_overrides`: enable conditional triggers such as:
+  - `[force-deviation-mode]`
+  - `[regression-scan]`
+  - `[arch-consistency-check]`
 
-## 🧠 New in v1.3
+## 🧠 GPT Instructions
 
-- `ContextTracker` tool for cross-file, cross-prompt awareness
-- `memory_policy` block:
-  - `architecture_cache`
-  - `file_reference_tracking`
-  - `refactor_state_persistence`
+To recreate this GPT in OpenAI ChatGPT:
 
-## 🧪 Validation Example
+1. Go to https://chat.openai.com/gpts/new
+2. Paste the contents of `instructions.txt` into the **Instructions** field
+3. Upload the following:
+   - `protocol/code_rpc_config.json`
+   - `schemas/code_rpc.schema.json`
+
+## 🧪 Validation
+
+Validate configuration using [AJV](https://ajv.js.org/) (or similar JSON Schema validator):
 
 ```bash
 npx ajv validate -s schemas/code_rpc.schema.json -d protocol/code_rpc_config.json
 ```
+
+## 🧠 Prompt Trigger Examples
+
+```text
+[force-deviation-mode] :: Refactor even if breaking layered structure
+[regression-scan]      :: Look for reintroduced logic bugs in last commit
+[arch-consistency-check] :: Validate controller-service-di alignment
+```
+
+## 📌 Version
+
+This is version 1.4 – schema-enforced, memory-aware, boundary-sensitive refactor agent configuration.
