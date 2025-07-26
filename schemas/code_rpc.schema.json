@@ -3,23 +3,16 @@
   "title": "CODE-RPC Protocol Configuration Schema",
   "type": "object",
   "required": [
-    "name",
-    "description",
-    "instructions",
-    "activation_trigger",
-    "tier_access",
-    "origin",
-    "visual_identity",
-    "tool_use",
-    "preset_responses",
-    "version",
-    "status",
-    "memory_policy"
+    "name", "description", "instructions", "activation_trigger",
+    "tier_access", "origin", "visual_identity", "tool_use",
+    "preset_responses", "version", "status", "memory_policy",
+    "module_boundary_policy", "design_state_tracking",
+    "refactor_scope_control", "advanced_trigger_overrides"
   ],
   "properties": {
     "name": {
       "type": "string",
-      "const": "CODE-RPC \u2013 Developer Refactor Protocol"
+      "const": "CODE-RPC – Developer Refactor Protocol"
     },
     "description": {
       "type": "string",
@@ -27,9 +20,7 @@
     },
     "instructions": {
       "type": "object",
-      "required": [
-        "behavior"
-      ],
+      "required": ["behavior"],
       "properties": {
         "behavior": {
           "type": "string",
@@ -43,10 +34,7 @@
     },
     "tier_access": {
       "type": "string",
-      "enum": [
-        "Tier 2+",
-        "Tier 3"
-      ]
+      "enum": ["Tier 2+", "Tier 3"]
     },
     "origin": {
       "type": "string",
@@ -54,28 +42,19 @@
     },
     "visual_identity": {
       "type": "object",
-      "required": [
-        "emoji",
-        "color",
-        "style",
-        "voice"
-      ],
+      "required": ["emoji", "color", "style", "voice"],
       "properties": {
         "emoji": {
           "type": "string",
-          "pattern": "\ud83d\udee0\ufe0f"
+          "pattern": "🛠️"
         },
         "color": {
           "type": "string",
-          "enum": [
-            "dark blue"
-          ]
+          "enum": ["dark blue"]
         },
         "style": {
           "type": "string",
-          "enum": [
-            "code-audit"
-          ]
+          "enum": ["code-audit"]
         },
         "voice": {
           "type": "string",
@@ -85,10 +64,7 @@
     },
     "tool_use": {
       "type": "object",
-      "required": [
-        "enabled",
-        "tools"
-      ],
+      "required": ["enabled", "tools"],
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -96,14 +72,10 @@
         },
         "tools": {
           "type": "array",
-          "minItems": 4,
+          "minItems": 6,
           "items": {
             "type": "object",
-            "required": [
-              "name",
-              "description",
-              "auto_invoke_in"
-            ],
+            "required": ["name", "description", "auto_invoke_in"],
             "properties": {
               "name": {
                 "type": "string",
@@ -111,20 +83,17 @@
                   "GitDiffAnalyzer",
                   "StructureScanner",
                   "CodeTracker",
-                  "ContextTracker"
+                  "ContextTracker",
+                  "DependencyResolver",
+                  "TestSurfaceAnalyzer"
                 ]
               },
-              "description": {
-                "type": "string"
-              },
+              "description": { "type": "string" },
               "auto_invoke_in": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "enum": [
-                    "[CODE-RPC/1.0]",
-                    "[code-review]"
-                  ]
+                  "enum": ["[CODE-RPC/1.0]", "[code-review]"]
                 }
               }
             }
@@ -140,44 +109,88 @@
         "refactor_state_persistence"
       ],
       "properties": {
-        "architecture_cache": {
-          "type": "boolean"
-        },
-        "file_reference_tracking": {
-          "type": "boolean"
-        },
-        "refactor_state_persistence": {
-          "type": "boolean"
-        }
+        "architecture_cache": { "type": "boolean" },
+        "file_reference_tracking": { "type": "boolean" },
+        "refactor_state_persistence": { "type": "boolean" }
       }
+    },
+    "module_boundary_policy": {
+      "type": "object",
+      "required": [
+        "respect_layers",
+        "detect_shared_libs",
+        "forbid_cross_layer_refs"
+      ],
+      "properties": {
+        "respect_layers": { "type": "boolean" },
+        "detect_shared_libs": { "type": "boolean" },
+        "forbid_cross_layer_refs": { "type": "boolean" }
+      }
+    },
+    "design_state_tracking": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "store_current_architecture",
+        "track_shifts"
+      ],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "store_current_architecture": { "type": "boolean" },
+        "track_shifts": { "type": "boolean" }
+      }
+    },
+    "refactor_scope_control": {
+      "type": "object",
+      "required": [
+        "max_files",
+        "allow_arch_shift",
+        "limit_to_module"
+      ],
+      "properties": {
+        "max_files": { "type": "integer" },
+        "allow_arch_shift": { "type": "boolean" },
+        "limit_to_module": { "type": "boolean" }
+      }
+    },
+    "advanced_trigger_overrides": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z\\-]+$": {
+          "type": "object",
+          "required": ["description", "applies_to"],
+          "properties": {
+            "description": { "type": "string" },
+            "applies_to": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["[CODE-RPC/1.0]", "[code-check]", "[code-review]"]
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
     },
     "preset_responses": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "user_input",
-          "assistant_response"
-        ],
+        "required": ["user_input", "assistant_response"],
         "properties": {
-          "user_input": {
-            "type": "string"
-          },
-          "assistant_response": {
-            "type": "string"
-          }
+          "user_input": { "type": "string" },
+          "assistant_response": { "type": "string" }
         }
       }
     },
     "version": {
       "type": "string",
-      "pattern": "1\\.3"
+      "pattern": "1\\.4"
     },
     "status": {
       "type": "string",
-      "enum": [
-        "Public"
-      ]
+      "enum": ["Public"]
     }
   }
 }
