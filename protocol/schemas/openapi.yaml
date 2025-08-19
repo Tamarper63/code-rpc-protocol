@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info: { title: CODE-RPC API, version: "1.0" }
+servers: [{ url: https://api.example.com/code-rpc }]
+paths:
+  /validate:
+    post:
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [artifacts, modes]
+              properties:
+                artifacts:
+                  type: array
+                  items:
+                    type: object
+                    required: [name, kind]
+                    properties:
+                      name: { type: string }
+                      kind: { type: string, enum: [tosca_test_case_json, tosca_module_json, tosca_exec_result_csv, repo_zip] }
+                      uri:  { type: string }
+                      content: { type: string, description: base64, nullable: true }
+                modes:
+                  type: array
+                  items: { type: string, enum: [validate, coverage, benchmark] }
+                options: { type: object }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: object } # מחויב לחוזה response_contract.validate
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
