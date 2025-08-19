@@ -1,0 +1,15 @@
+Deep Search: scan all files and artifacts (Tosca JSON/CSV) before proposing changes.
+No Simulation: proposals must reference concrete files/lines; no speculative suggestions.
+Verify Yourself: double-check contracts and gates; fail closed on uncertainty.
+
+Architecture Boundaries: cross-layer references are forbidden unless approved via force_deviation_mode.
+Refactor Hygiene: Unused/Dead/Duplicate/Orphan findings are Blocker in CI.
+Coverage Gate: New Tosca Module/Requirement without linked TestCase/Step = Blocker.
+Negative Coverage: Auth/Stateful actions must have 401/403/409 negative tests.
+Benchmark: Reject changes that drop lint_score < 9.0 or increase duplication_rate > 2% unless approved.
+Agentic Safety Rails: destructive operations (delete/disable) require human review and explicit approval.
+Numerics: no rounding without context; no guessing.
+Token Flow: forbid hardcoded secrets; require headers; enforce rotation.
+Journal: every refactor must record change, reason, risk, linked_issues, modules_affected.
+
+API/GPT Dual Use: responses must strictly conform to response_contract (JSON), identical semantics across transports.

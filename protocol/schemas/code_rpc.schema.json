@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CODE-RPC Protocol Configuration Schema",
+  "type": "object",
+  "required": ["name","description","instructions","activation_trigger","tier_access","origin","visual_identity","tool_use","preset_responses","version","status","memory_policy"],
+  "properties": {"refactor_limits": {
+  "type": "object",
+  "properties": {
+    "max_files": { "type": "integer", "minimum": 1 },
+    "max_cross_layer_changes": { "type": "integer", "minimum": 0 },
+    "allow_cross_service_changes": { "type": "boolean" },
+    "override_via": { "type": "string", "enum": ["force_deviation_mode"] }
+  }
+},
+    "name": { "type": "string", "const": "CODE-RPC \u2013 Developer Refactor Protocol" },
+    "description": { "type": "string", "minLength": 10 },
+    "instructions": { "type": "object", "required": ["behavior"], "properties": { "behavior": { "type": "string", "pattern": "(?=.*deep search)(?=.*do not simulate)(?=.*verify yourself)(?=.*dead code)(?=.*objective deviation)(?=.*architecture)" } } },
+    "activation_trigger": { "type": "string", "pattern": "\\[CODE-RPC/1.0\\], \\[code-check\\], \\[code-review\\]" },
+    "tier_access": { "type": "string", "enum": ["Tier 2+","Tier 3"] },
+    "origin": { "type": "string", "pattern": "user/ARCH\\..+" },
+    "visual_identity": {
+      "type": "object",
+      "required": ["emoji","color","style","voice"],
+      "properties": {
+        "emoji": { "type": "string", "const": "\ud83d\udee0\ufe0f" },
+        "color": { "type": "string", "enum": ["dark blue"] },
+        "style": { "type": "string", "enum": ["code-audit"] },
+        "voice": { "type": "string", "const": "technical, terse, non-narrative" }
+      }
+    },
+    "tool_use": {
+      "type": "object",
+      "required": ["enabled","tools"],
+      "properties": {
+        "enabled": { "type": "boolean", "const": true },
+        "tools": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["name","description","auto_invoke_in"],
+            "properties": {
+              "name": { "type": "string", "enum": ["GitDiffAnalyzer","StructureScanner","CodeTracker","ContextTracker","DependencyResolver","TestSurfaceAnalyzer"] },
+              "description": { "type": "string" },
+              "auto_invoke_in": { "type": "array", "items": { "type": "string", "enum": ["[CODE-RPC/1.0]","[code-review]"] } }
+            }
+          }
+        }
+      }
+    },
+    "memory_policy": {
+      "type": "object",
+      "required": ["architecture_cache","file_reference_tracking","refactor_state_persistence"],
+      "properties": {
+        "architecture_cache": { "type": "boolean" },
+        "file_reference_tracking": { "type": "boolean" },
+        "refactor_state_persistence": { "type": "boolean" }
+      }
+    },
+    "preset_responses": { "type": "array", "items": { "type": "object", "required": ["user_input","assistant_response"], "properties": { "user_input": { "type": "string" }, "assistant_response": { "type": "string" } } } },
+    "version": { "anyOf": [{ "type": "string", "pattern": "1\\.3" }, { "type": "string", "pattern": "1\\.4(\\.2)?" }] },
+    "status": { "type": "string", "enum": ["Public"] },
+    "domain_profile": { "type": "string", "enum": ["generic","tosca"] },
+
+    "enforcement": {
+      "type": "object",
+      "properties": {
+        "strict_mode": { "type": "boolean" },
+        "json_only_output": { "type": "boolean" },
+        "fail_closed_on_missing_artifacts": { "type": "boolean" },
+        "deny_artifact_synthesis": { "type": "boolean" },
+        "deny_scaffold_generation": { "type": "boolean" },
+        "deny_data_uri_artifacts": { "type": "boolean" },
+        "require_attached_files": { "type": "boolean" }
+      }
+    },
+
+    "required_artifacts": { "type": "array", "items": { "type": "string" } },
+
+    "architecture_policy": { "type": "object" },
+    "consistency_checks": { "type": "object" },
+    "code_hygiene": { "type": "object" },
+
+    "coverage_gates": { "type": "object" },
+
+    "exit_code_policy": {
+      "type": "object",
+      "properties": {
+        "missing_artifacts": { "type": "object" },
+        "on_findings": { "type": "object" },
+        "severity_threshold": { "type": "string", "enum": ["low","medium","high"] }
+      }
+    },
+
+    "regression_scheduler": { "type": "object" },
+    "github_benchmark": { "type": "object" },
+    "proposal_policy": { "type": "object" },
+    "token_flow_policy": { "type": "object" },
+    "numerics_policy": { "type": "object" },
+    "module_fit": { "type": "object" },
+    "refactor_journal": { "type": "object" },
+    "override_controls": { "type": "object" },
+
+    "ci_interface": { "type": "object" },
+
+    "response_contract": { "type": "object" },
+
+    "api_interface": { "type": "object" },
+
+    "gpt_interface": {
+      "type": "object",
+      "properties": {
+        "activation_triggers": { "type": "array", "items": { "type": "string" } },
+        "system_preamble": { "type": "string" },
+        "output_mode": { "type": "string", "enum": ["json_only"] },
+        "no_artifact_synthesis": { "type": "boolean" },
+        "no_scaffold_generation": { "type": "boolean" },
+        "self_validation": { "type": "boolean" },
+        "max_tokens": { "type": "integer" }
+      }
+    }
+  }
+}
