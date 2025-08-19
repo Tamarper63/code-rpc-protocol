@@ -95,14 +95,14 @@ This ensures:
 
 ## Deterministic Exit Codes
 
-| Code | Meaning |
-|-----:|---------|
-| 0 | Ok |
-| 21 | Consistency Fail |
-| 22 | Hygiene Fail |
-| 23 | Coverage Gate |
-| 24 | Scheduler Error |
-| 25 | Benchmark Below Threshold |
+| Code | Meaning                   |
+|-----:|---------------------------|
+|    0 | Ok                        |
+|   21 | Consistency Fail          |
+|   22 | Hygiene Fail              |
+|   23 | Coverage Gate             |
+|   24 | Scheduler Error           |
+|   25 | Benchmark Below Threshold |
 
 These codes are consumed by CI to block merges on policy violations.
 
